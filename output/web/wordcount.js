@@ -5,7 +5,7 @@ function drawWordCounts(dataset){
 	var example = [dataset["ondernemers"], dataset["burgers"], dataset["overheid"], dataset["werknemers"]];
 	drawWordCountSet(example, "#economics");
 	
-	var example = [dataset["moeten"], dataset["willen"], dataset["geven"], dataset["nemen"]];
+	var example = [dataset["moeten"], dataset["willen"], dataset["geven"], dataset["nemen"]]; 
 	//var example = [dataset["staatshervorming"], dataset["vooruitgang"]];
 	//var example = [dataset["lastenverlaging"], dataset["besparen"], dataset["investeren"]];
 	//var example = [dataset["milieu"]];
@@ -160,7 +160,7 @@ function drawWordCountSet(dataset, div){
 
 	var axisHeight = 20;
 	var legendHeight = 50;
-	var height = dataset.length*100;
+	var height = dataset.length*70;
 	var width = "100%";
 	d3.select(div).selectAll("*").remove();
 	var div = d3.select(div);
@@ -360,6 +360,14 @@ window.onload=function(){
 	   });
 	   console.log(dataset);
 	   drawWordCounts(dataset);
-	   suggestions = Object.keys(dataset);
+	   var suggestions = Object.keys(dataset).sort();
+	   $( "#userInput1" ).autocomplete({
+	      source: suggestions
+	    });
+	    
+	    $( "#userInput2" ).autocomplete({
+	      source: suggestions
+	    });
 	});
 }
+

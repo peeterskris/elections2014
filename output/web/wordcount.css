@@ -43,3 +43,8 @@ g.threads line {
     opacity:0.5;
 }
 
+.ui-autocomplete a{
+	font-size:12px;
+
+}
+
