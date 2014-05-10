@@ -10,10 +10,10 @@ corpus <- tm_map(corpus, removePunctuation)
 corpus <- tm_map(corpus, removeNumbers)
 corpus <- tm_map(corpus, tolower)
 corpus <- tm_map(corpus, removeWords, stopwords("dutch"))
-#corpus <- tm_map(corpus, stemDocument, language="dutch") # doesn't stem on dutch? 
+#corpus <- tm_map(corpus, stemDocument, language="dutch") # don't do stemming for wordcloud
 
 ap.tdm <- TermDocumentMatrix(corpus)
-
+ap.m <- as.matrix(tdm)
 
 for(i in 1:7) {
   ap.v <- sort(ap.m[,i],decreasing=TRUE)

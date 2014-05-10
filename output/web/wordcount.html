@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>    
+	<link rel="stylesheet" type="text/css" href="wordcount.css">
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>	
+    <script type="text/javascript" src="wordcount.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    
+</head>
+<body>
+    <h3>Grootste verschillen</h3>
+    <div id="differences" class="chart"></div>
+    <h3>Economie</h3>
+    <div id="economics" class="chart"></div>
+    <h3>Mens en maatschappij</h3>
+    <div id="actions" class="chart"></div>
+    <h3>Grootste verschillen</h3>
+    <div id="geography" class="chart"></div>
+    <h3>Probeer het zelf</h3>
+            <input type="text" id="userInput1" name="userInput1" />
+            <input type="text" id="userInput2" name="userInput2" />
+            <input type="submit" value="Submit" onclick="drawUserInput()">            
+    <div id="user" class="chart"></div>    
+</body>
+</html>

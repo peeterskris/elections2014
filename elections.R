@@ -1,3 +1,5 @@
+options(max.print=100)
+
 install.packages("tm")
 install.packages("textir")
 install.packages("topicmodels")
@@ -9,7 +11,7 @@ library("topicmodels")
 library(textir)
 
 
-txtinput <- DirSource('~/git/elections/input/txt', recursive=TRUE)
+txtinput <- DirSource('~/git/elections/input/txt', encoding = "Latin-1", recursive=TRUE)
 rawcorpus <- Corpus(txtinput, readerControl = list(language="nl")) 
 corpus <- tm_map(rawcorpus, stripWhitespace)
 corpus <- tm_map(corpus, removePunctuation)
@@ -17,7 +19,7 @@ corpus <- tm_map(corpus, removeNumbers)
 corpus <- tm_map(corpus, tolower)
 corpus <- tm_map(corpus, removeWords, stopwords("dutch"))
 corpus <- tm_map(corpus, stemDocument, language="dutch") # doesn't stem on dutch? 
-CMetaData(corpus)
+
 
 tdm <- TermDocumentMatrix(corpus)
 tdm
@@ -62,4 +64,10 @@ Terms[,1:5]
 
 
 tfidf(corpus)
-dissimilarity(tdm, method = "Eucledian")
+dissimilarity(tdm, method = "Jaccard")
+
+
+m <- as.matrix(tdm)
+sorted <- sort(m[,2],decreasing=TRUE)
+sorted
+dm
