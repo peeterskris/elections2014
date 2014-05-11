@@ -1,6 +1,7 @@
 .chart {
 	width: 90%;
 	min-width:500px;
+	margin-bottom: 40px;
 /* 	height: 600px; */
 }
 
@@ -27,15 +28,33 @@ g.bubbles circle {
     fill-opacity:1;
 }
 g.bubbles text {
+	padding-top:20px;
     text-anchor:middle;
     alignment-baseline:middle;
     opacity:0;
     pointer-events:all;
     transition:1s;
+    fill:black;
 }
+
+g.bubbles text {
+	padding-top:20px;
+    text-anchor:middle;
+    alignment-baseline:middle;
+    opacity:0;
+    pointer-events:all;
+    transition:1s;
+    fill:black;
+}
+
 g.bubbles text:hover {
     opacity:1;
 }
+
+g.bubbles circle {
+    opacity:1;
+}
+
 
 g.threads line {
     fill:none;
@@ -45,6 +64,18 @@ g.threads line {
 
 .ui-autocomplete a{
 	font-size:12px;
-
 }
+
+#userInput1{
+	width: 400px;
+	
+}
+
+svg{
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	fill: #aaaaaa;
+}
+
+
 

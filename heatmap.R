@@ -5,7 +5,7 @@ library(matrixStats)
 library (gplots)
 library(ggplot2)
 
-txtinput <- DirSource('~/git/elections/input/txt', recursive=TRUE)
+txtinput <- DirSource('~/git/elections/input/txt', recursive=TRUE,  encoding = "latin1")
 rawcorpus <- Corpus(txtinput, readerControl = list(language="nl")) 
 corpus <- tm_map(rawcorpus, stripWhitespace)
 corpus <- tm_map(corpus, removePunctuation)

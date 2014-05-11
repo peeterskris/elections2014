@@ -1,8 +1,8 @@
 function drawWordCounts(dataset){
-	var example = [dataset["sociale"], dataset["ecologische"], dataset["economische"]];
+	var example = [dataset["besparen"], dataset["investeren"]];
 	drawWordCountSet(example, "#differences");
 	
-	var example = [dataset["ondernemers"], dataset["burgers"], dataset["overheid"], dataset["werknemers"]];
+	var example = [dataset["ondernemers"], dataset["werkgevers"], dataset["werknemers"], dataset["burgers"]];
 	drawWordCountSet(example, "#economics");
 	
 	var example = [dataset["moeten"], dataset["willen"], dataset["geven"], dataset["nemen"]]; 
@@ -11,11 +11,25 @@ function drawWordCounts(dataset){
 	//var example = [dataset["milieu"]];
 	drawWordCountSet(example, "#actions");
 	
-	var example = [dataset["europa"], dataset["belgie"], dataset["wallonie"],dataset["vlaanderen"]];	
+	var example = [dataset["europa"], dataset["belgie"], dataset["vlaanderen"]];	
 	drawWordCountSet(example, "#geography");
 	
 	drawUserInput();
 }
+
+   
+function loadAutoComplete(dataset){
+
+	  var suggestions = Object.keys(dataset).sort();
+	   $( "#userInput1" ).autocomplete({
+	      source: suggestions
+	    });
+
+	    $( "#userInput2" ).autocomplete({
+	      source: suggestions
+	    });	    
+
+ }
 
 function drawUserInput()
 {
@@ -161,10 +175,11 @@ function drawWordCountSet(dataset, div){
 	var axisHeight = 20;
 	var legendHeight = 50;
 	var height = dataset.length*70;
+	var totalHeight = axisHeight +height+legendHeight;
 	var width = "100%";
 	d3.select(div).selectAll("*").remove();
 	var div = d3.select(div);
-	var svg = div.append("svg").attr("width", width).attr("height",axisHeight + height+legendHeight);
+	var svg = div.append("svg").style("width", width).style("height",totalHeight).attr("width", width).attr("height",totalHeight);
 	
 	var digits = /(\d*)/;
 	var margin = 20; //space in pixels from edges of SVG
@@ -176,9 +191,9 @@ function drawWordCountSet(dataset, div){
 	    width = digits.exec(width)[0];
 	 //window.getComputedStyle(svg[0][0])["height"];
 	    //height = Math.min(digits.exec(height)[0], width);		
-	svg.style("height", height);
+	    
 	
-	var maxX = 0;
+	var maxX = 1200;
 	dataset.forEach(function(wordEntry){
 		wordEntry.forEach(function(entry){
 			maxX = Math.max(entry.x, maxX);	
@@ -280,10 +295,10 @@ function drawWordCountSet(dataset, div){
 		        });	
 	});
 			
-	var legendX = margin;
+	var legendX = margin+10;
 	var legendItemWidth = 110;
 	var currentLegendX = legendX;
-	var maxLegendWidth = width-margin-legendItemWidth;
+	var maxLegendWidth = width-legendItemWidth-legendX;
 	var legendY = axisHeight + height;
 	var legend = svg.append("g")
 	  .attr("class", "legend")
@@ -360,14 +375,6 @@ window.onload=function(){
 	   });
 	   console.log(dataset);
 	   drawWordCounts(dataset);
-	   var suggestions = Object.keys(dataset).sort();
-	   $( "#userInput1" ).autocomplete({
-	      source: suggestions
-	    });
-	    
-	    $( "#userInput2" ).autocomplete({
-	      source: suggestions
-	    });
+	   loadAutoComplete(dataset);
 	});
 }
-
