@@ -77,5 +77,24 @@ svg{
 	fill: #aaaaaa;
 }
 
+#copyright{
+	font-family: Arial, sans-serif;
+	font-size: 10px;
+	color: #AAA;
+}
+
+#instructions{
+	font-family: Arial, sans-serif;
+	font-size: 10px;
+	margin: 20px;
+	
+}
+
+#note{
+	font-family: Arial, sans-serif;
+	font-size: 10px;
+	color: #AAA;
+}
+
 
 

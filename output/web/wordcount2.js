@@ -1,5 +1,6 @@
 function drawWordCounts(dataset){
 
+/*
 	var example = [dataset["besparen"], dataset["investeren"]];
 	drawWordCountSet(example, "#differences");
 	
@@ -14,6 +15,7 @@ function drawWordCounts(dataset){
 	
 	var example = [dataset["europa"], dataset["belgie"], dataset["vlaanderen"]];	
 	drawWordCountSet(example, "#geography");
+*/
 
 	
 	drawUserInput();
