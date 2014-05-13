@@ -40,7 +40,7 @@ function loadAutoComplete(dataset){
         source: function( request, response ) {
           // delegate back to autocomplete, but extract the last term
           response( $.ui.autocomplete.filter(
-            suggestions, extractLast( request.term ) ).slice(1,5) );
+            suggestions, extractLast( request.term ) ).slice(1,10) );
         },
         focus: function() {
           // prevent value inserted on focus
