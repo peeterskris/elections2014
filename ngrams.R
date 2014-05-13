@@ -5,7 +5,7 @@ library(matrixStats)
 library(rJava)
 library(RWeka)
 options(mc.cores=1)
-txtinput <- DirSource('~/git/elections/input/txt/cdv/utf8', recursive=TRUE)
+txtinput <- DirSource('~/git/elections/input/txt', recursive=TRUE)
 rawcorpus <- Corpus(txtinput, readerControl = list(language="nl"))
   
 corpus <- tm_map(rawcorpus, stripWhitespace)
@@ -17,7 +17,7 @@ corpus <- tm_map(corpus, removeWords, stopwords("dutch"))
 
 #BigramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min = 1, max = 3))
 #txtTdmBi <- TermDocumentMatrix(corpus, control = list(tokenize = BigramTokenizer))
-#txtTdmBi <- TermDocumentMatrix(corpus)
+txtTdmBi <- TermDocumentMatrix(corpus)
 
 
 tdm <- txtTdmBi
@@ -33,7 +33,7 @@ df = rename(df, c("cdv.txt"="cdv", "groen.txt"="groen", "nva.txt"="nva", "openvl
 #We multiply each result with the max document length to have intuitive word counts
 norm.tdm <- round(sweep(m,2,colSums(m),`/`) * max(colSums(m)))
 norm.tdm <- norm.tdm[order(rowSums(norm.tdm),decreasing=T),][1:20000,]
-#diff.tdm <- subset(norm.tdm, rowSums(norm.tdm)>=250)
+norm.tdm <- subset(norm.tdm, rowSums(norm.tdm)>=3)
 #diff.tdm <- sweep(diff.tdm, 1, rowSums(diff.tdm), `/`)
 diff.tdm <- norm.tdm[order(rowVars(norm.tdm),decreasing=T),]
 
@@ -42,8 +42,21 @@ write.csv(diff.tdm, file = "output/wordcount.csv", fileEncoding="UTF-8")
 nrow(norm.tdm)
 dissimilarity(tdm, method = "Jaccard")
 
-vb <- sort(subset(norm.tdm, norm.tdm[,7]>0)[,7],decreasing=F)
-vb
+
+cdv = norm.tdm[order(norm.tdm[,1]-rowMeans(norm.tdm),decreasing=T),]
+
+cdvonly = subset(df, df[1]>=min & df[1]==0 & df[2]==0 & df[3]==0 & df[4]==0 & df[5]==0 & df[6]==0 & df[7]==0)
+groenonly = subset(df, df[1]== 0 & df[2]>=min & df[3]==0 & df[4]==0 & df[5]==0 & df[6]==0 & df[7]==0)
+nvaonly = subset(df, df[1]== 0 & df[2]==0 & df[3]>=min & df[4]==0 & df[5]==0 & df[6]==0 & df[7]==0)
+openvldonly = subset(df, df[1]== 0 & df[2]==0 & df[3]==0 & df[4]>=min & df[5]==0 & df[6]==0 & df[7]==0)
+pvdaonly = subset(df, df[1]== 0  & df[2]==0 & df[3]==0 & df[4]==0 & df[5]>=min & df[6]==0 & df[7]==0)
+spaonly = subset(df, df[1]== 0 & df[2]==0 & df[3]==0 & df[4]==0 & df[5]==0 & df[6]>=min & df[7]==0)
+vlaamsbelangonly = subset(df, df[1]== 0 & df[2]==0 & df[3]==0 & df[4]==0 & df[5]==0 & df[6]==0 & df[7]>=min)
+
+
+
+
+
 #each term count is divided by the total count over all documents
 norm.tfidfm <- sweep(norm.tdm, 1, rowSums(norm.tdm), `/`)
 

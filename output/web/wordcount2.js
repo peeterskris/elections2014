@@ -30,7 +30,7 @@ function extractLast( term ) {
  
     
 function loadAutoComplete(dataset){
-	var suggestions = Object.keys(dataset).sort();
+	var suggestions = Object.keys(dataset);
     
     $( "#userInput1" )
       .autocomplete({
@@ -38,7 +38,7 @@ function loadAutoComplete(dataset){
         source: function( request, response ) {
           // delegate back to autocomplete, but extract the last term
           response( $.ui.autocomplete.filter(
-            suggestions, extractLast( request.term ) ) );
+            suggestions, extractLast( request.term ) ).slice(1,5) );
         },
         focus: function() {
           // prevent value inserted on focus
