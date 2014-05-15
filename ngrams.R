@@ -24,14 +24,16 @@ tdm <- txtTdmBi
 
 m <- as.matrix(tdm)
 colSums(m)
+
 df <- data.frame(m)
 names(df)
-
 df = rename(df, c("cdv.txt"="cdv", "groen.txt"="groen", "nva.txt"="nva", "openvld.txt"="openvld", "pvda.txt"="pvda", "spa.txt"="spa", "vlaamsbelang.txt"="vlaamsbelang"))
 
 #norm.tdm are the term frequencies normalized by document length. 
 #We multiply each result with the max document length to have intuitive word counts
-norm.tdm <- round(sweep(m,2,colSums(m),`/`) * max(colSums(m)))
+#norm.tdm <- round(sweep(m,2,colSums(m),`/`) * max(colSums(m)))
+norm.tdm <- m[order(rowSums(m),decreasing=T),]
+colSums(norm.tdm)
 norm.tdm <- norm.tdm[order(rowSums(norm.tdm),decreasing=T),][1:20000,]
 norm.tdm <- subset(norm.tdm, rowSums(norm.tdm)>=3)
 #diff.tdm <- sweep(diff.tdm, 1, rowSums(diff.tdm), `/`)
@@ -44,6 +46,13 @@ dissimilarity(tdm, method = "Jaccard")
 
 
 cdv = norm.tdm[order(norm.tdm[,1]-rowMeans(norm.tdm),decreasing=T),]
+groen = norm.tdm[order(norm.tdm[,2]-rowMeans(norm.tdm),decreasing=T),]
+nva = norm.tdm[order(norm.tdm[,3]-rowMeans(norm.tdm),decreasing=T),]
+openvld = norm.tdm[order(norm.tdm[,4]-rowMeans(norm.tdm),decreasing=T),]
+pvda = norm.tdm[order(norm.tdm[,5]-rowMeans(norm.tdm),decreasing=T),]
+spa = norm.tdm[order(norm.tdm[,6]-rowMeans(norm.tdm),decreasing=T),]
+vlaamsbelang = norm.tdm[order(norm.tdm[,7]-rowMeans(norm.tdm),decreasing=T),]
+
 
 cdvonly = subset(df, df[1]>=min & df[1]==0 & df[2]==0 & df[3]==0 & df[4]==0 & df[5]==0 & df[6]==0 & df[7]==0)
 groenonly = subset(df, df[1]== 0 & df[2]>=min & df[3]==0 & df[4]==0 & df[5]==0 & df[6]==0 & df[7]==0)

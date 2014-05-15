@@ -1,3 +1,5 @@
+
+
 function drawWordCounts(dataset){
 
 /*
@@ -62,9 +64,29 @@ function loadAutoComplete(dataset){
       $("#userInput1").keyup(function(ev) {
 		    // 13 is ENTER
 		    if (ev.which === 13) {
-		      drawUserInput();
+		      userInputChanged();
 			}
 	  });
+}
+
+(function($) {
+    $.fn.goTo = function() {
+        $('html, body').animate({
+            scrollTop: $(this).offset().top + 'px'
+        }, 'fast');
+        return this; // for chaining...
+    }
+})(jQuery);
+
+function userInputChanged()
+{
+	drawUserInput();
+	$('#logo').html("");
+	$('#text').html("");
+	$('#text').hide();
+	var userword1 = d3.select("#userInput1")[0][0].value;
+	ga('send', 'event', 'search', 'start', 'search words', userword1);
+	
 }
 
 function drawUserInput()
@@ -87,17 +109,41 @@ function drawUserInput()
 	drawWordCountSet(entries, "#user");
 }
 
+function exportToPng()
+{
+	var $container = $('#user'),
+        // Canvg requires trimmed content
+        content = $container.html().trim(),
+        canvas = document.getElementById('svg-canvas');
+
+    // Draw svg on canvas
+    canvg(canvas, content);
+
+    // Change img be SVG representation
+    var theImage = canvas.toDataURL('image/png');
+    $('#svg-img').attr('src', theImage);
+}
+
 var dataset = [];
 var suggestions = [];
 var parties = [
-    	{ text:"cdv", label:"CD&V", color:"#F47D2A", position: 4, logo:"img/cdv.jpg"},
-    	{ text:"groen", label:"Groen", color:"#008379", position: 2, logo:"img/groen.jpg"},
-    	{ text:"nva", label:"N-VA", color:"#FFCB00", position: 6, logo:"img/nva.png"},
-		{ text:"openvld", label:"Open Vld", color:"#0053A1", position: 5, logo:"img/openvld.png"},
-		{ text:"pvda", label:"pvda+", color:"#E52F2C", position: 1, logo:"img/pvda.jpg"},
-		{ text:"spa", label:"sp.a", color:"#E20024", position: 3, logo:"img/spa.png"},
-		{ text:"vlaamsbelang", label:"Vlaams Belang", color:"#431C0D", position: 7, logo:"img/vlaamsbelang.jpg"}
+    	{ text:"cdv", label:"CD&V", color:"#F47D2A", position: 4, logo:"img/cdv.jpg", programme:"txt/cdv.txt.csv"},
+    	{ text:"groen", label:"Groen", color:"#008379", position: 2, logo:"img/groen.jpg", programme:"txt/groen.txt.csv"},
+    	{ text:"nva", label:"N-VA", color:"#FFCB00", position: 6, logo:"img/nva.png", programme:"txt/nva.txt.csv"},
+		{ text:"openvld", label:"Open Vld", color:"#0053A1", position: 5, logo:"img/openvld.png", programme:"txt/openvld.txt.csv"},
+		{ text:"pvda", label:"pvda+", color:"#E52F2C", position: 1, logo:"img/pvda.jpg", programme:"txt/pvda.txt.csv"},
+		{ text:"spa", label:"sp.a", color:"#E20024", position: 3, logo:"img/spa.png", programme:"txt/spa.txt.csv"},
+		{ text:"vlaamsbelang", label:"Vlaams Belang", color:"#431C0D", position: 7, logo:"img/vlaamsbelang.jpg", programme:"txt/vlaamsbelang.txt.csv"}
 	];
+	
+var partyTexts = [];
+partyTexts["cdv"] = "";
+partyTexts["groen"] = "";
+partyTexts["nva"] = "";
+partyTexts["openvld"] = "";
+partyTexts["pvda"] = "";
+partyTexts["spa"] = "";
+partyTexts["vlaamsbelang"] = "";
 
   
 function drawWordCountSet(dataset, div){
@@ -210,23 +256,59 @@ function drawWordCountSet(dataset, div){
 		            //then add it to the quadtree
 		            //so the following circles will avoid it.
 		            
-		            var cx = margin + d.partyposition * partyWidth;
+		            var cx = margin + d.partyposition * partyWidth + 10;
 		            //console.log("Bubble " + i);
 		            d3.select(this)
+		            	.on("click", function(d){readProgramme(d.partyobj, wordEntry.word)})
+		            	.style('cursor','pointer')
 		            	.attr("class", d.party)
 		            	.attr("fill", d.partycolor)
 		                //.attr("cx", margin)
 		                //.transition().duration(600)
 		                .attr("cx", cx)
 		                .attr("cy", 0);	 
+		                
 		          
 		            
 		        });	
 	});			
 }
 
+function extractAndHighlightRegex(text, word)
+{
+		
+		var regExp = new RegExp('(\\W)?('+word+')(\\W)?', 'gi');  // regex pattern string
+		var quoteRegExp = new RegExp('([a-z]+)\'|\’([a-z]+)', 'gi');  // regex pattern string
+		var result = "...<br /><br />";
+		var res = text.replace(quoteRegExp, '$1$2').split("\n\n");
+		res.forEach(function(entry){
+			if(entry.match(regExp) != null){
+				result += entry + "<br /><br />...<br /><br />";
+			}			
+		});
+		result = result.replace(regExp, '$1<span class="highlight">$2</span>$3');
+		$("#text").html(result);
+		$('#text').show();
+}
 	
+function readProgramme(party, word)
+{
+	$("#text").html("Loading...");
+	if(partyTexts[party.text]==""){
+		d3.xhr(party.programme, "text/plain", function(data){
+			extractAndHighlightRegex(data.responseText, word);
+			partyTexts[party.text] = data.responseText;
+		});
+	}
+	else{
+		extractAndHighlightRegex(partyTexts[party.text], word);
+	}
+	$("#logo").html('<img src="' + party.logo +'" style="width: 80px">');
+	$('#logo').goTo();
+	ga('send', 'event', 'read', 'start', 'read text', party + ": " + word);
+}	
 	
+
 //http://fiddle.jshell.net/6cW9u/8/
 window.onresize=function(){
 drawWordCounts(dataset)};
@@ -256,11 +338,12 @@ window.onload=function(){
 		    party:party.text,
 		    partytext:party.label,
 		    partycolor:party.color,
-		    partyposition:party.position});
+		    partyposition:party.position,
+		    partyobj:party});
 		});	   	
 	   });
-	   console.log(dataset);
 	   drawWordCounts(dataset);
 	   loadAutoComplete(dataset);
+	   $('#text').hide();
 	});
 }

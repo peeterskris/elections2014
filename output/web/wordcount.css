@@ -1,7 +1,7 @@
 .chart {
 	width: 90%;
 	min-width:500px;
-	margin-bottom: 40px;
+	margin-bottom: 10px;
 /* 	height: 600px; */
 }
 
@@ -68,7 +68,12 @@ g.threads line {
 
 #userInput1{
 	width: 400px;
-	
+	margin-top: 12px;
+	margin-left: 5px;
+}
+
+#submit{
+	margin-top: 12px;
 }
 
 svg{
@@ -77,24 +82,70 @@ svg{
 	fill: #aaaaaa;
 }
 
+#user{
+	break: left;
+	display: block;
+	min-height: 500px;
+}
+
 #copyright{
 	font-family: Arial, sans-serif;
 	font-size: 10px;
 	color: #AAA;
+	margin-top:40px;
 }
 
-#instructions{
+#search{
+	width: 600px;
+	height:100px;
+	margin-top:70px;
+}
+
+#input{
+	float: left;
+}
+
+#explanation{
 	font-family: Arial, sans-serif;
 	font-size: 10px;
-	margin: 20px;
-	
+	float: left;
+	color: #AAA;
+	margin-left: 5px;
 }
 
 #note{
 	font-family: Arial, sans-serif;
 	font-size: 10px;
 	color: #AAA;
+	margin-left: 20px;
 }
 
+#text{
+	font-family: monospace;
+	font-size: 11px;
+	background-color: #F6F6F6;
+	border: 1px solid #999;
+	padding: 20px;
+	margin-bottom:50px;
+}
 
+#logo{
+	margin:20px;
+}
+
+.highlight{
+	background-color: yellow;
+}
+
+#sitelogo{
+	height: 40px;
+	vertical-align: top;
+	float: left;
+}
+
+.navbar-right li{
+	margin-top: 10px;
+	margin-left: 10px;
+	vertical-align: bottom;
+}
 
