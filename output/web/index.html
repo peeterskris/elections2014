@@ -3,8 +3,6 @@
 <head>    
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>	
@@ -12,10 +10,11 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="wordcount.css">
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-
-	    <title>Programma's 14</title>
-
-
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<title>Programma's 14</title>
   </head>
 <body>
 	<div id="fb-root"></div>
@@ -40,12 +39,12 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-      <li><a href="https://twitter.com/intent/tweet?button_hashtag=vk14" class="twitter-hashtag-button" data-lang="nl" data-size="large" data-url="http://programmas14.be">Tweet #vk14</a>
+      <li><a href="https://twitter.com/share" class="twitter-share-button" data-via="peeterskris" data-lang="nl" data-hashtags="vk14">Tweeten</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </li>
       <li><div class="fb-share-button" data-href="http://programmas14.be" data-type="button_count"></div></li>
@@ -54,8 +53,8 @@
       </div>
     </div>
     <div class="container">
-            <div id="search"><img id="sitelogo" src="logo.png"><input type="text" id="userInput1" name="userInput1" value="euro, duurzame, jongeren, groei, verkiezingen, verandering, vlaanderen" />
-            <input id="submit" type="submit" value="Zoek op" onclick="userInputChanged()">            
+            <div id="search"><img id="sitelogo" src="logo.png"><input type="text" id="userInput1" class="form-control" name="userInput1" value="regering, duurzame, jongeren, groei, verkiezingen, verandering, vlaanderen" />
+            <input id="submit" type="submit" class="btn btn-lg btn-primary" value="Zoek op" onclick="userInputChanged()">            
             <div id="explanation"><p>Vul één of meerdere woorden in, gescheiden door een komma
            <!--
  De grafiek toont hoe vaak de woorden vermeld worden in de partijprogramma's.<br />
@@ -64,19 +63,21 @@
             </div>
 	    <div id="user" class="chart"></div>  
 	    <div id="social"></div>
-
+		<div class="alert alert-info" id="clickhelp">
+        Klik nu op een bolletje om het partijprogramma te zien
+      </div>
 		<div id="logo"></div><div id="text"></div>
 	    
 	    <a name="about"></a>
-	    <h1>Over deze TOOL</h1>
+	    <h1>Over deze tool</h1>
 	    <p>In de media hebben politici niet altijd de gelegenheid om over hun hele partijprogramma te praten. Vaak gaan de debatten over hot topics die scoren bij kijker en kiezer. Maar wat staat er nu echt in de partij programma's? En vooral, wie heeft nog tijd om alle programma's door te lezen?</p>
-	    <p>Deze tool maakt het gemakkelijker om hier inzicht in te krijgen. Ik heb alle partij programma's gedownload en een relatief simpele analyse gedaan: het aantal woorden geteld die in elk programma voorkomt. Deze tool is geïnspireerd op  <a href="http://www.nytimes.com/interactive/2011/06/10/education/commencement-speeches-graphic.html?_r=0">dit artikel</a>. Na feedback bleken gebruikers vooral te willen klikken op de woorden om te kijken wat de partijen precies daar over zeggen.  Want het is één ding dat je veel praat over een onderwerp. Maar het is nog interessanter om te weten wat je er dan precies over zegt. 		   
+	    <p>Deze tool maakt het gemakkelijker om daar inzicht in te krijgen. Ik heb alle partij programma's gedownload en een relatief simpele analyse gedaan: het aantal woorden geteld die in elk programma voorkomt. Deze tool is geïnspireerd op  <a href="http://www.nytimes.com/interactive/2011/06/10/education/commencement-speeches-graphic.html?_r=0">dit artikel</a>. Je kan ook klikken op de bolletjes om te zien wat daar nu echt over in een partij programma staat.  Want het is één ding dat je veel praat over een onderwerp. Maar het is nog interessanter om te weten wat je er dan precies over zegt. 		   
 	    </p>
-	    <p>De partij programma's zijn niet allemaal even lang. Het programma van het Vlaams Belang bestaat uit ongeveer 13 000 woorden, terwijl Groen naar de kiezer gaat met een programma van bijna 200 000 woorden. Dat maakt de vergelijking niet gemakkelijker. Neem dus de resultaten met een korrel zout.</p>
-	    <p>Deze tool is gemaakt met <a href="http://www.r-project.org/">R</a> en het prachtige <a href="http://d3js.org/">D3.js</a>. De code is gratis beschikbaar <a href="https://github.com/peeterskris/elections2014">op github</a> en </p>	    
+	    <p>De partij programma's zijn niet allemaal even lang. Het programma van het Vlaams Belang bestaat uit ongeveer 13 000 woorden, terwijl Groen naar de kiezer gaat met een programma van bijna 200 000 woorden. Dat maakt de vergelijking niet gemakkelijker. Verder zijn er een aantal weinig-voorkomende woorden niet opgenomen in deze tool. Neem dus de resultaten met een korrel zout.</p>
+	    <p>Deze tool is gemaakt met <a href="http://www.r-project.org/">R</a> en het prachtige <a href="http://d3js.org/">D3.js</a>. De code is gratis beschikbaar <a href="https://github.com/peeterskris/elections2014">op github</a>.</p>	    
 	    
 		<a name="contact"></a>
-	    <h1>Contacteer mij</h1>
+	    <h1>Contact</h1>
 	    Ik ben Kris Peeters, niet de echte :-) Deze tool is in mijn vrije tijd gemaakt. Ik ben niet gelinkt aan een politieke partij. Feedback is altijd welkom via <a href="http://twitter.com/peeterskris">twitter</a> of <a href="mailto:peeterskris@gmail.com">email</a>.
 	    
 	    

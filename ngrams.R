@@ -40,7 +40,7 @@ norm.tdm <- subset(norm.tdm, rowSums(norm.tdm)>=3)
 diff.tdm <- norm.tdm[order(rowVars(norm.tdm),decreasing=T),]
 
 diff.tdm[1:nrow(diff.tdm),]
-write.csv(diff.tdm, file = "output/wordcount.csv", fileEncoding="UTF-8")
+write.csv(norm.tdm, file = "output/wordcount.csv", fileEncoding="UTF-8")
 nrow(norm.tdm)
 dissimilarity(tdm, method = "Jaccard")
 

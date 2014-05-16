@@ -85,7 +85,6 @@ svg{
 #user{
 	break: left;
 	display: block;
-	min-height: 500px;
 }
 
 #copyright{
@@ -96,7 +95,7 @@ svg{
 }
 
 #search{
-	width: 600px;
+	/* width: 600px; */
 	height:100px;
 	margin-top:70px;
 }
@@ -105,12 +104,25 @@ svg{
 	float: left;
 }
 
+#userInput1{
+	float: left;
+	margin-left: 10px;	
+}
+
+#submit{
+	float: left;
+	margin-left: 10px;
+	vertical-align: top;
+}
+
 #explanation{
 	font-family: Arial, sans-serif;
 	font-size: 10px;
+	clear: both;
 	float: left;
 	color: #AAA;
-	margin-left: 5px;
+	margin-left: 55px;
+	
 }
 
 #note{
@@ -144,8 +156,16 @@ svg{
 }
 
 .navbar-right li{
-	margin-top: 10px;
+	margin-top: 15px;
 	margin-left: 10px;
 	vertical-align: bottom;
 }
 
+#clickhelp, #text{
+	display: none;
+}
+
+#about{
+	margin-top: 100px;
+	
+}

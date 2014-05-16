@@ -85,7 +85,7 @@ function userInputChanged()
 	$('#text').html("");
 	$('#text').hide();
 	var userword1 = d3.select("#userInput1")[0][0].value;
-	ga('send', 'event', 'search', 'start', 'search words', userword1);
+	ga('send', 'event', 'search', 'submitted', userword1);
 	
 }
 
@@ -107,6 +107,7 @@ function drawUserInput()
 		entries.push(entry);
 	});
 	drawWordCountSet(entries, "#user");
+	$('#clickhelp').show();
 }
 
 function exportToPng()
@@ -277,7 +278,7 @@ function drawWordCountSet(dataset, div){
 function extractAndHighlightRegex(text, word)
 {
 		
-		var regExp = new RegExp('(\\W)?('+word+')(\\W)?', 'gi');  // regex pattern string
+		var regExp = new RegExp('(\\W)('+word+')(\\W)', 'gi');  // regex pattern string
 		var quoteRegExp = new RegExp('([a-z]+)\'|\’([a-z]+)', 'gi');  // regex pattern string
 		var result = "...<br /><br />";
 		var res = text.replace(quoteRegExp, '$1$2').split("\n\n");
@@ -288,24 +289,26 @@ function extractAndHighlightRegex(text, word)
 		});
 		result = result.replace(regExp, '$1<span class="highlight">$2</span>$3');
 		$("#text").html(result);
-		$('#text').show();
 }
 	
 function readProgramme(party, word)
-{
+{	
+	$('#clickhelp').hide();
+	$("#text").show();
 	$("#text").html("Loading...");
 	if(partyTexts[party.text]==""){
 		d3.xhr(party.programme, "text/plain", function(data){
 			extractAndHighlightRegex(data.responseText, word);
 			partyTexts[party.text] = data.responseText;
 		});
+		ga('send', 'event', 'text', 'load', party.text + ": " + word);
 	}
 	else{
 		extractAndHighlightRegex(partyTexts[party.text], word);
 	}
 	$("#logo").html('<img src="' + party.logo +'" style="width: 80px">');
 	$('#logo').goTo();
-	ga('send', 'event', 'read', 'start', 'read text', party + ": " + word);
+	ga('send', 'event', 'text', 'read', party.text + ": " + word);
 }	
 	
 
@@ -325,6 +328,9 @@ window.onload=function(){
     //Freely released for any purpose under Creative Commons Attribution licence: http://creativecommons.org/licenses/by/3.0/
     //Author name and link to this page is sufficient attribution.
                 
+    $('#clickhelp').hide();
+	$('#text').hide();
+                	   
 	var radius = 2.7;
 	d3.csv("wordcount.csv", function(data) {
 	   data.map(function(d) { 
@@ -344,6 +350,6 @@ window.onload=function(){
 	   });
 	   drawWordCounts(dataset);
 	   loadAutoComplete(dataset);
-	   $('#text').hide();
+
 	});
 }
